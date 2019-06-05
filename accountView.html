@@ -1,0 +1,61 @@
+<script>
+        submitForm = function(){
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const postalCode = document.getElementById('postalCode').value;
+    
+            fetch('http://localhost:6789/account/create/?name='+name+'&email='+email+'&postalCode='+postalCode, {method:'POST'})
+            .then((res) => res.json()).then(data => console.log(data)).catch(err => console.error(err));
+        }
+        </script>
+        <style>
+            input {
+    border: 0;
+    outline: 0;
+    background:rgb(187, 187, 187);
+}
+.accountBox{
+    background: rgb(206, 206, 206);
+}
+        </style>
+
+<div >
+    <table class = 'accountBox'>
+          <tr > 
+              <td>
+                Name:
+              </td>
+              <td>
+          <input type ='text' 
+                id = 'name'
+                  data-fieldid ='name' 
+                   />
+              </td>
+            </tr>
+          <tr >
+                <td>
+                        Email:
+                </td>
+                    <td>
+            <input type ='email' 
+                id = 'email'
+                  data-fieldid ='email' 
+                   />
+                    </td>
+                </tr>
+          <tr >
+                <td>
+                        Postal Code:
+                </td>
+                    <td>
+              <input type ='text' 
+                id = 'postalCode'
+                  data-fieldid ='postalCode' 
+              />
+                    </td>
+                </tr>
+          
+            </table>
+            <button onclick = 'submitForm()'> Save </button>
+        
+        </div>
