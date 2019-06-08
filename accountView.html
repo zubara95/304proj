@@ -3,9 +3,29 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const postalCode = document.getElementById('postalCode').value;
+            const accountId = document.getElementById('accountId').value;
+            let cmpSize, cmpIndustry, indStatus, indAge;
+            if (document.getElementById('companyView')){
+                cmpSize = document.getElementById('cmpSize').value;
+                cmpIndustry = document.getElementById('cmpIndustry').value;
+            } else {
+                indStatus = document.getElementById('cmpInduindStatusstry').value;
+                indAge = document.getElementById('indAge').value;
+            }
+
+            let urlPath = 'http://localhost:6789/account/create';
+            urlPath += ('/?name='+name+'&email='+email+'&postalCode='+postalCode +'&accountId='+accountId);
+            if (cmpSize){
+                urlPath+= ('&size='+cmpSize+'&industry='+cmpIndustry);
+            } else {
+                urlPath+= ('&status='+indStatus+'&age='+indAge);
+            }
     
-            fetch('http://localhost:6789/account/create/?name='+name+'&email='+email+'&postalCode='+postalCode, {method:'POST'})
-            .then((res) => res.json()).then(data => console.log(data)).catch(err => console.error(err));
+            fetch(urlPath, 
+                {method:'POST'})
+            .then((res) => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(err));
         }
         </script>
         <style>
@@ -21,6 +41,10 @@
 
 <div >
     <table class = 'accountBox'>
+            <input hidden='true' 
+            id = 'name'
+              data-fieldid ='name' 
+               />
           <tr > 
               <td>
                 Name:
@@ -54,8 +78,56 @@
               />
                     </td>
                 </tr>
-          
+                <div class = 'companyView'>
+                        <tr > 
+                            <td>
+                                Size:
+                            </td>
+                            <td>
+                        <input type ='number' 
+                                id = 'cmpSize'
+                                data-fieldid ='cmpSize' 
+                                    />
+                            </td>
+                        </tr>
+                        <tr > 
+                            <td>
+                                Industry:
+                            </td>
+                            <td>
+                        <input type ='text' 
+                                id = 'cmpIndustry'
+                                data-fieldid ='cmpIndustry' 
+                                    />
+                            </td>
+                        </tr>
+                    </div>
+                    <div class = 'individualView'>
+                            <tr > 
+                                <td>
+                                    Age:
+                                </td>
+                                <td>
+                            <input type ='number' 
+                                    id = 'indAge'
+                                    data-fieldid ='indAge' 
+                                        />
+                                </td>
+                            </tr>
+                            <tr > 
+                                <td>
+                                    Status:
+                                </td>
+                                <td>
+                            <input type ='text' 
+                                    id = 'indStatus'
+                                    data-fieldid ='indStatus' 
+                                        />
+                                </td>
+                            </tr>
+                        </div>
+                    
             </table>
             <button onclick = 'submitForm()'> Save </button>
-        
         </div>
+        
