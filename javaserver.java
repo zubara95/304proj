@@ -2,18 +2,37 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.sql.*;
+import oracle.jdbc.driver.OracleDriver;
+
 import static helpers.DBVars.username;
 import static helpers.DBVars.password;
 
-class TCPServer {
+public class javaserver {
 
 private static Connection con;
 
+public javaserver() {
+
+}
 
  public static void main(String argv[]) throws Exception {
   char[] clientSentence= new char[10000];
   String capitalizedSentence;
   ServerSocket welcomeSocket = new ServerSocket(6789);
+     try 
+      {
+	// Load the Oracle JDBC driver
+		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+		// may be oracle.jdbc.driver.OracleDriver as of Oracle 11g
+      }
+      catch (SQLException ex)
+      {
+	System.out.println("Message: " + ex.getMessage());
+	System.exit(-1);
+      }
+
+      System.out.println("connecting");
+   System.out.println(connect());
 
   while (true) {
   try{
@@ -35,8 +54,7 @@ private static Connection con;
         System.out.println(urlParams);
 
    }
-   System.out.println("connecting");
-   System.out.println(connect());
+   
    String response = dispatch(urlParams, parsedPath);
    PrintWriter pw = new PrintWriter(outToClient);
    		pw.print("HTTP/1.1 200 \r\n"); // Version & status code
@@ -109,19 +127,7 @@ private static Connection con;
      */ 
     private static boolean connect()
     {
-      String connectURL = "jdbc:oracle:thin:@dbhost.ugrad.cs.ubc.ca:1522:ug"; 
-
-        try 
-      {
-	// Load the Oracle JDBC driver
-		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-		// may be oracle.jdbc.driver.OracleDriver as of Oracle 11g
-      }
-      catch (SQLException ex)
-      {
-	System.out.println("Message: " + ex.getMessage());
-	System.exit(-1);
-      }
+      String connectURL = "jdbc:oracle:thin:@localhost:1522:stu"; 
 
       try 
       {
